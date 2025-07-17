@@ -43,3 +43,7 @@
 
 ### VS Code ###
 /spring_backend.vscode/
+
+### MAC OS ###
+.DS_Store
+spring_backend/.DS_Store
