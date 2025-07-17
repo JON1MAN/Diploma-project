@@ -1,6 +1,45 @@
+### ESP32 ###
 /esp32_part/.pio
 /esp32_part/.vscode/.browse.c_cpp.db*
 /esp32_part/.vscode/c_cpp_properties.json
 /esp32_part/.vscode/launch.json
 /esp32_part/.vscode/ipch
 /esp32_part/.vscode
+
+/spring_backend/HELP.md
+/spring_backend/.gradle
+/spring_backend/build/
+/spring_backend/!gradle/wrapper/gradle-wrapper.jar
+/spring_backend/!**/src/main/**/build/
+/spring_backend/!**/src/test/**/build/
+
+### STS ###
+/spring_backend/.apt_generated
+/spring_backend/.classpath
+/spring_backend/.factorypath
+/spring_backend/.project
+/spring_backend/.settings
+/spring_backend/.springBeans
+/spring_backend/.sts4-cache
+/spring_backend/bin/
+/spring_backend/!**/src/main/**/bin/
+/spring_backend/!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+/spring_backend/.idea
+/spring_backend/*.iws
+/spring_backend/*.iml
+/spring_backend/*.ipr
+/spring_backend/out/
+/spring_backend/!**/src/main/**/out/
+/spring_backend/!**/src/test/**/out/
+
+### NetBeans ###
+/spring_backend/nbproject/private/
+/spring_backend/nbbuild/
+/spring_backend/dist/
+/spring_backend/nbdist/
+/spring_backend/.nb-gradle/
+
+### VS Code ###
+/spring_backend.vscode/
