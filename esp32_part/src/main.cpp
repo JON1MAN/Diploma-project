@@ -1,18 +1,26 @@
 #include <Arduino.h>
+#include "RFIDModule.h"
 
-// put function declarations here:
-int myFunction(int, int);
+RFIDModule rfid(5, 21);
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+    Serial.begin(9600);
+    rfid.begin();
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
+    if (rfid.isCardPresent()) {
+        String uid = rfid.readCardUID();
+        Serial.println("Card UID: " + uid);
+        
+        if (uid == "79d270a2") {
+            Serial.println("Access granted!");
+            delay(2000);
+        } else {
+            Serial.println("Access denied.");
+            delay(2000);
+        }
+    }
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+    delay(100);
 }
