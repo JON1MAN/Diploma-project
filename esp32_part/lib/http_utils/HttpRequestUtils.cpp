@@ -1,4 +1,7 @@
 #include "HttpRequestUtils.h"
+#include <Arduino.h>
+#include <WiFi.h>
+#include <HTTPClient.h>
 
 const char* HttpRequestUtils::CONTENT_TYPE = "application/json";
 const char* HttpRequestUtils::EMPTY_JSON = "{}";
