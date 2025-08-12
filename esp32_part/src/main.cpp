@@ -5,6 +5,7 @@
 #include <Arduino_JSON.h>
 #include <HttpRequestUtils.h>
 #include <RegisterCardDTO.h>
+#include <CardClient.h>
 #include <Keypad.h>
 
 const byte ROWS = 1;
@@ -17,30 +18,12 @@ byte rowPins[ROWS] = {13};
 byte colPins[COLS] = {26, 25, 33, 32}; 
 
 Keypad customKeypad = Keypad( makeKeymap(hexaKeys), rowPins, colPins, ROWS, COLS); 
+CardClient cardClient;
 
-const char* ssid = "";
-const char* password = "";
-const char* registerCardEndpoint = "http://:8080/cards/register";
-const char* validateCardAccessEndpoint = "http://:8080/cards/validate/";
-const char* deleteCardEndpoint = "http://:8080/cards/";
+const char* ssid = WIFI_SSID;
+const char* password = WIFI_PASSWORD;
 
 RFIDModule rfid(5, 21);
-
-String registerCard(String hexCode) {
-  RegisterCardDTO requestBody(hexCode);
-  String jsonBody = requestBody.toJson();
-  return HttpRequestUtils::post(registerCardEndpoint, jsonBody);
-}
-
-String validateCardAccess(String hexCode) {
-  String url = String(validateCardAccessEndpoint) + hexCode;
-  return HttpRequestUtils::get(url.c_str());
-}
-
-String deleteCard(String hexCode) {
-  String url = String(deleteCardEndpoint) + hexCode;
-  return HttpRequestUtils::del(url.c_str());
-}
 
 void setup() {
   Serial.begin(9600);
@@ -73,28 +56,16 @@ void setup() {
 void loop() {
   char customKey = customKeypad.getKey();
     if(WiFi.status()== WL_CONNECTED){
-      delay(700);
+      delay(100);
       if (customKey == '0'){
         Serial.println(customKey);
-        String registerResponse = registerCard("aaa_hex_code");
-        Serial.println(registerResponse);
-        JSONVar registerResponseObject = JSON.parse(registerResponse);
-        Serial.print("JSON object = ");
-        Serial.println(registerResponseObject);
+        cardClient.registerCard("bbb_hex_code");
     } else if (customKey == '1') {
         Serial.println(customKey);
-        String validateAccessResponse = validateCardAccess("aaa_hex_code");
-        Serial.println(validateAccessResponse);
-        JSONVar validateResponseObject = JSON.parse(validateAccessResponse);
-        Serial.print("JSON object = ");
-        Serial.println(validateResponseObject);
+        cardClient.validateCard("bbb_hex_code");
     } else if (customKey == '2') {
         Serial.println(customKey);
-        String deleteCardResponse = deleteCard("fun_hex_code");
-        Serial.println(deleteCardResponse);
-        JSONVar deleteCardResponseObject = JSON.parse(deleteCardResponse);
-        Serial.print("JSON object = ");
-        Serial.println(deleteCardResponseObject);
+        cardClient.deleteCard("bbb_hex_code");
     }
   } else {
     Serial.println("WiFi Disconnected");
