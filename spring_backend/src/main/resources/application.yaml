@@ -1,3 +1,17 @@
 spring:
   application:
     name: spring_backend
+
+  jpa:
+    database: POSTGRESQL
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USER}
+    password: ${DATABASE_PASSWORD}
+    driverClassName: org.postgresql.Driver
+  sql:
+    init:
+      platform: postgres
