@@ -43,7 +43,12 @@
 
 ### VS Code ###
 /spring_backend.vscode/
+/.vscode/
 
 ### MAC OS ###
 .DS_Store
 spring_backend/.DS_Store
+
+### ENV ###
+/esp32_part/dev.env
+/spring_backend/dev.env
