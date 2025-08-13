@@ -2,6 +2,7 @@
 #define RFID_MODULE_H
 
 #include <MFRC522.h>
+#include <Arduino.h>
 
 class RFIDModule {
 public:
@@ -9,6 +10,7 @@ public:
     void begin();
     bool isCardPresent();
     String readCardUID();
+    String processCard();
 
 private:
     MFRC522 mfrc522;

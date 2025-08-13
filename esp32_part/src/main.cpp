@@ -27,6 +27,7 @@ RFIDModule rfid(5, 21);
 
 void setup() {
   Serial.begin(9600);
+  rfid.begin();
   WiFi.disconnect(true); 
   delay(1000);
   
@@ -58,34 +59,19 @@ void loop() {
     if(WiFi.status()== WL_CONNECTED){
       delay(100);
       if (customKey == '0'){
+        delay(200);
         Serial.println(customKey);
-        cardClient.registerCard("bbb_hex_code");
+        String cardUID = rfid.processCard();
+        cardClient.registerCard(cardUID);
     } else if (customKey == '1') {
         Serial.println(customKey);
-        cardClient.validateCard("bbb_hex_code");
+        String cardUID = rfid.processCard();
     } else if (customKey == '2') {
         Serial.println(customKey);
-        cardClient.deleteCard("bbb_hex_code");
+        String cardUID = rfid.processCard();
+        cardClient.deleteCard(cardUID);
     }
   } else {
     Serial.println("WiFi Disconnected");
   }
-  
 }
-
-// void loop() {
-//     if (rfid.isCardPresent()) {
-//         String uid = rfid.readCardUID();
-//         Serial.println("Card UID: " + uid);
-        
-//         if (uid == "79d270a2") {
-//             Serial.println("Access granted!");
-//             delay(2000);
-//         } else {
-//             Serial.println("Access denied.");
-//             delay(2000);
-//         }
-//     }
-
-//     delay(100);
-// }

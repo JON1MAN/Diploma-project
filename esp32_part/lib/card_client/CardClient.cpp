@@ -19,7 +19,7 @@ JSONVar CardClient::registerCard(const String& hexCode) {
 JSONVar CardClient::validateCard(const String& hexCode) {
     Serial.println("Setup to validate a card with hex code: " + hexCode);
 
-    String url = String(_validateCardAccessEndpoint) + hexCode; // ensure endpoint ends with '/'
+    String url = String(_validateCardAccessEndpoint) + hexCode;
     String response = HttpRequestUtils::get(url.c_str());
 
     Serial.println("Received a response for validation request of card with hex: " + hexCode);
@@ -31,7 +31,7 @@ JSONVar CardClient::validateCard(const String& hexCode) {
 String CardClient::deleteCard(const String& hexCode) {
     Serial.println("Setup to delete a card with hex code: " + hexCode);
 
-    String url = String(_deleteCardEndpoint) + hexCode; // ensure trailing '/'
+    String url = String(_deleteCardEndpoint) + hexCode;
     String response = HttpRequestUtils::del(url.c_str());
 
     Serial.println("Received a response for deletion request of card with hex: " + hexCode);

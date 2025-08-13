@@ -19,3 +19,15 @@ String RFIDModule::readCardUID() {
     }
     return uid;
 }
+
+String RFIDModule::processCard() {
+    while (!this->isCardPresent())
+    {
+        Serial.println("Waiting for card attach!");
+        delay(200);
+    }
+    delay(200);
+    String uid = this->readCardUID();
+    Serial.println("Card's UID: " + uid);
+    return uid;
+}
