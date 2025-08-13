@@ -7,6 +7,7 @@
 #include <RegisterCardDTO.h>
 #include <CardClient.h>
 #include <Keypad.h>
+#include <CardAccessResponseDTO.h>
 
 const byte ROWS = 1;
 const byte COLS = 4;
@@ -28,6 +29,8 @@ RFIDModule rfid(5, 21);
 void setup() {
   Serial.begin(9600);
   rfid.begin();
+
+  //TODO create setup function in separate WiFi module class or WiFi setup class
   WiFi.disconnect(true); 
   delay(1000);
   
@@ -62,10 +65,14 @@ void loop() {
         delay(200);
         Serial.println(customKey);
         String cardUID = rfid.processCard();
-        cardClient.registerCard(cardUID);
+        JSONVar jsonResponse = cardClient.registerCard(cardUID);
     } else if (customKey == '1') {
         Serial.println(customKey);
         String cardUID = rfid.processCard();
+        JSONVar jsonResponse = cardClient.validateCard(cardUID);
+        CardAccessResponseDTO responseDTO = CardAccessResponseDTO::mapJsonToDTO(jsonResponse);
+        Serial.println("Access type: ");
+        Serial.println(responseDTO.accessType());
     } else if (customKey == '2') {
         Serial.println(customKey);
         String cardUID = rfid.processCard();
