@@ -8,6 +8,7 @@
 #include <CardClient.h>
 #include <Keypad.h>
 #include <CardAccessResponseDTO.h>
+#include <ESP32Servo.h>
 
 const byte ROWS = 1;
 const byte COLS = 4;
@@ -20,6 +21,7 @@ byte colPins[COLS] = {26, 25, 33, 32};
 
 Keypad customKeypad = Keypad( makeKeymap(hexaKeys), rowPins, colPins, ROWS, COLS); 
 CardClient cardClient;
+Servo servo;
 
 const char* ssid = WIFI_SSID;
 const char* password = WIFI_PASSWORD;
@@ -34,6 +36,12 @@ void setup() {
   WiFi.disconnect(true); 
   delay(1000);
   
+  Serial.print("SSID");
+  Serial.print(ssid);
+
+  Serial.print("PASSWORD");
+  Serial.print(password);
+
   WiFi.begin(ssid, password);
   Serial.print("Connecting to WiFi");
   Serial.print("Signal strength (RSSI): ");
@@ -55,6 +63,20 @@ void setup() {
     Serial.println(WiFi.status());
     Serial.println("Failed to connect to WiFi.");
   }
+
+  ESP32PWM::allocateTimer(0);
+	ESP32PWM::allocateTimer(1);
+	ESP32PWM::allocateTimer(2);
+	ESP32PWM::allocateTimer(3);
+	servo.setPeriodHertz(50);    // standard 50 hz servo
+	int ch =  servo.attach(4, 1000, 2000);
+  Serial.print("Servo channel: ");
+  Serial.println(ch);
+  Serial.print("Servo attached: ");
+  Serial.println(servo.attached());
+
+  delay(500);
+  servo.write(0);
 }
 
 void loop() {
@@ -70,13 +92,26 @@ void loop() {
         Serial.println(customKey);
         String cardUID = rfid.processCard();
         JSONVar jsonResponse = cardClient.validateCard(cardUID);
-        CardAccessResponseDTO responseDTO = CardAccessResponseDTO::mapJsonToDTO(jsonResponse);
+        CardAccessResponseDTO responseDTO = CardAccessResponseDTO::mapJsonToDTO(jsonResponse);      
         Serial.println("Access type: ");
         Serial.println(responseDTO.accessType());
+
+        if (responseDTO.accessType() == "PERMIT")
+        {
+          Serial.println("Opening lock...");
+          delay(500);
+          servo.write(0);
+        }
+        
     } else if (customKey == '2') {
         Serial.println(customKey);
         String cardUID = rfid.processCard();
         cardClient.deleteCard(cardUID);
+    } else if (customKey == '3') {
+        Serial.println(customKey);
+        Serial.println("Closing lock...");
+        delay(500);
+        servo.write(180);
     }
   } else {
     Serial.println("WiFi Disconnected");
