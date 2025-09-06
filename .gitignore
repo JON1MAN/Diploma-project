@@ -6,6 +6,8 @@
 /esp32_part/.vscode/ipch
 /esp32_part/.vscode
 
+
+### SPRING BACKEND ###
 /spring_backend/HELP.md
 /spring_backend/.gradle
 /spring_backend/build/
@@ -52,3 +54,25 @@ spring_backend/.DS_Store
 ### ENV ###
 /esp32_part/dev.env
 /spring_backend/dev.env
+
+/react_frontend_web/node_modules
+/react_frontend_web/.pnp
+/react_frontend_web.pnp.js
+
+# testing
+/react_frontend_web/coverage
+
+# production
+/react_frontend_web/build
+
+# misc
+/react_frontend_web/.DS_Store
+/react_frontend_web/.env.local
+/react_frontend_web/.env.development.local
+/react_frontend_web/.env.test.local
+/react_frontend_web/.env.production.local
+/react_frontend_web/.env
+
+/react_frontend_web/npm-debug.log*
+/react_frontend_web/yarn-debug.log*
+/react_frontend_web/yarn-error.log*
