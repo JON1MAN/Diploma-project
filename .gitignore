@@ -55,7 +55,6 @@ spring_backend/.DS_Store
 /esp32_part/dev.env
 /spring_backend/dev.env
 
-/react_frontend_web/node_modules
 /react_frontend_web/.pnp
 /react_frontend_web.pnp.js
 
@@ -76,3 +75,8 @@ spring_backend/.DS_Store
 /react_frontend_web/npm-debug.log*
 /react_frontend_web/yarn-debug.log*
 /react_frontend_web/yarn-error.log*
+
+/react_fronted_web/.idea
+/react_fronted_web/build
+/react_frontend_web/node_modules
+/react_frontend_web/.env
