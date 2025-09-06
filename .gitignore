@@ -79,4 +79,4 @@ spring_backend/.DS_Store
 /react_fronted_web/.idea
 /react_fronted_web/build
 /react_frontend_web/node_modules
-/react_frontend_web/.env
+/react_frontend_web/dev.env
