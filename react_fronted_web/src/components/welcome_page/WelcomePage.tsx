@@ -2,8 +2,7 @@ import React, {useEffect, useState} from "react";
 import {WelcomePageProps} from "../../interfaces/welcome_page/WelcomePageProps";
 
 
-
-const WelcomePage: React.FC<WelcomePageProps> = ({ user }) => {
+const WelcomePage: React.FC<WelcomePageProps> = ({user}) => {
     const [showText, setShowText] = useState(false);
     const [showLock, setShowLock] = useState(false);
 
@@ -24,72 +23,71 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ user }) => {
                 {[...Array(20)].map((_, i) => (
                     <div
                         key={i}
-                        className="absolute w-2 h-2 bg-green-500 rounded-full opacity-40"
+                        className="absolute w-2 h-2 bg-green-500 rounded-full opacity-40 animate-pulse"
                         style={{
                             left: `${Math.random() * 100}%`,
                             top: `${Math.random() * 100}%`,
-                            animation: `float ${3 + Math.random() * 4}s ease-in-out infinite`,
+                            animation: `float ${3 + Math.random() * 2}s ease-in-out infinite`,
                             animationDelay: `${Math.random() * 2}s`
                         }}
                     />
                 ))}
             </div>
 
-            <div className="text-center z-10">
+            {/* Main content container - perfectly centered */}
+            <div className="flex flex-col items-center justify-center text-center z-10 px-4">
                 {/* Welcome Text Animation */}
                 <div
-                    className={`transform transition-all duration-1000 ease-out ${
+                    className={`transform transition-all duration-1000 ease-out mb-12 ${
                         showText
                             ? 'translate-y-0 opacity-100 scale-100'
                             : 'translate-y-8 opacity-0 scale-95'
                     }`}
                 >
-                    <h1 className="text-6xl font-bold text-white mb-8 tracking-wide">
+                    <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white tracking-wide text-center">
                         Welcome{' '}
-                        <span className="bg-gradient-to-r text-green-200 bg-clip-text text-transparent">
+                        <span className="bg-gradient-to-r from-green-500 to-green-400 bg-clip-text text-transparent">
               {user?.firstName}!
             </span>
                     </h1>
                 </div>
 
-                {/* Lock Animation */}
+                {/* Lock Animation - centered */}
                 <div
-                    className={`transform transition-all duration-1000 delay-300 ease-out ${
+                    className={`flex flex-col items-center justify-center transform transition-all duration-1000 delay-300 ease-out ${
                         showLock
                             ? 'translate-y-0 opacity-100 scale-100'
                             : 'translate-y-8 opacity-0 scale-95'
                     }`}
                 >
-                    <div className="relative animate-float animate-lockPulse animate-glow">
-                        <div className="w-32 h-32 mx-auto mb-8 relative">
-                            {/* Lock body */}
-                            <div className="absolute inset-x-6 bottom-0 h-20 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg shadow-2xl">
-                                {/* Keyhole */}
-                                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                                    <div className="w-3 h-3 bg-orange-800 rounded-full"></div>
-                                    <div className="w-1 h-4 bg-orange-800 mx-auto mt-1"></div>
-                                </div>
+                    {/* Lock container - centered */}
+                    <div className="w-32 h-32 mb-8 relative mx-auto flex items-center justify-center">
+                        {/* Lock body - centered within container */}
+                        <div className="absolute w-20 h-20 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg shadow-2xl flex items-center justify-center">
+                            {/* Keyhole - centered within lock body */}
+                            <div className="flex flex-col items-center">
+                                <div className="w-3 h-3 bg-orange-800 rounded-full"></div>
+                                <div className="w-1 h-4 bg-orange-800 mt-1"></div>
                             </div>
-
-                            {/* Lock shackle with animation */}
-                            <div
-                                className="absolute top-0 left-1/2 transform -translate-x-1/2 w-16 h-16 border-8 border-yellow-400 rounded-t-full transition-all duration-2000 ease-in-out"
-                                style={{
-                                    animation: showLock ? 'lockPulse 2s ease-in-out infinite' : 'none'
-                                }}
-                            ></div>
-
-                            {/* Glowing effect */}
-                            <div
-                                className="absolute inset-0 rounded-full opacity-30 blur-xl bg-gradient-to-r from-yellow-400 to-orange-500"
-                                style={{
-                                    animation: showLock ? 'glow 2s ease-in-out infinite alternate' : 'none'
-                                }}
-                            ></div>
                         </div>
+
+                        {/* Lock shackle - centered above lock body */}
+                        <div
+                            className={`absolute -top-4 w-16 h-16 border-8 border-yellow-400 rounded-t-full ${
+                                showLock ? 'animate-pulse' : ''
+                            }`}
+                        ></div>
+
+                        {/* Glowing effect - centered */}
+                        <div
+                            className={`absolute inset-0 rounded-full opacity-30 blur-xl bg-gradient-to-r from-yellow-400 to-orange-500 ${
+                                showLock ? 'animate-pulse' : ''
+                            }`}
+                        ></div>
                     </div>
 
-                    <p className="text-xl text-white font-light">
+                    {/* Subtitle - centered */}
+                    <p className="text-lg sm:text-xl text-white font-light text-center max-w-md">
                         Your access control system awaits
                     </p>
                 </div>
