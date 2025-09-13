@@ -4,5 +4,5 @@ export interface EditCardModalProps {
     card: Card | null;
     isOpen: boolean;
     onClose: () => void;
-    onSave: (name: string) => void;
+    onSave: (updatedCard: Card) => void;
 }

@@ -3,7 +3,7 @@ import EditCardModal from "./modal/EditCardModal";
 import LockHistoryTable from "./lock/LockHistoryTable";
 import CardComponent from "./card/CardComponent";
 import {Lock, Unlock, User, Menu} from 'lucide-react';
-import {CardApiService} from "../api/card/CardApiService";
+import ApiService from "../api/ApiService";
 import {Card} from "../interfaces/card/Card";
 import React, {useEffect, useState} from "react";
 import {LockHistoryEntry} from "../interfaces/lock_history/LockHistoryEntry";
@@ -33,12 +33,10 @@ const AccessCardSystem: React.FC = () => {
     const loadInitialData = async () => {
         try {
             setLoading(true);
-            const [userData, cardsData, historyData, statusData] = await Promise.all([
-                CardApiService.getCurrentUser(),
-                CardApiService.getCards(),
-                CardApiService.getLockHistory(),
-                CardApiService.getLockStatus()
-            ]);
+            const cardsData = await ApiService.getCards();
+            const userData = await ApiService.getCurrentUserDetails();
+            const statusData = await ApiService.getLockStatus();
+            const historyData: LockHistoryEntry[] = [];
 
             setUser(userData);
             setCards(cardsData);
@@ -46,6 +44,11 @@ const AccessCardSystem: React.FC = () => {
             setLockStatus(statusData);
         } catch (error) {
             console.error('Failed to load initial data:', error);
+
+            setUser({ firstName: 'Unknown', lastName: 'User', email: 'unknown@example.com' });
+            setCards([]);
+            setLockHistory([]);
+            setLockStatus('closed');
         } finally {
             setLoading(false);
         }
@@ -63,32 +66,29 @@ const AccessCardSystem: React.FC = () => {
 
     const handleStatusChange = async (card: Card) => {
         try {
-            const newStatus = card.access === 'PERMIT' ? 'DENIED' : 'PERMIT';
-            await CardApiService.updateCardStatus(card.id, newStatus);
-            setCards(cards.map(c => c.id === card.id ? { ...c, status: newStatus } : c));
+            const newAccessType = card.accessType === 'PERMIT' ? 'DENIED' : 'PERMIT';
+            const updatedCard = await ApiService.updateCard(card.id, {
+                name: card.name, // Keep the existing name
+                accessType: newAccessType
+            });
+
+            setCards(cards.map(c => c.id === card.id ? updatedCard : c));
         } catch (error) {
             console.error('Failed to update card status:', error);
         }
     };
 
-    const handleSaveEdit = async (name: string) => {
-        if (!selectedCard) return;
-
-        try {
-            await CardApiService.updateCard(selectedCard.id, { name });
-            setCards(cards.map(c => c.id === selectedCard.id ? { ...c, name } : c));
-            setEditModalOpen(false);
-            setSelectedCard(null);
-        } catch (error) {
-            console.error('Failed to update card:', error);
-        }
+    const handleSaveEdit = (updatedCard: Card) => {
+        setCards(cards.map(c => c.id === updatedCard.id ? updatedCard : c));
+        setEditModalOpen(false);
+        setSelectedCard(null);
     };
 
     const handleConfirmDelete = async () => {
         if (!selectedCard) return;
 
         try {
-            await CardApiService.deleteCard(selectedCard.id);
+            await ApiService.deleteCard(selectedCard.id);
             setCards(cards.filter(c => c.id !== selectedCard.id));
             setDeleteModalOpen(false);
             setSelectedCard(null);
@@ -105,7 +105,6 @@ const AccessCardSystem: React.FC = () => {
         );
     }
 
-    // Welcome Page
     if (currentPage === 'welcome') {
         return (
             <>
@@ -131,7 +130,6 @@ const AccessCardSystem: React.FC = () => {
         );
     }
 
-    // Main Dashboard Pages
     return (
         <div className="flex h-screen bg-gray-100">
             {/* Menu Button */}
@@ -210,7 +208,6 @@ const AccessCardSystem: React.FC = () => {
                 isOpen={deleteModalOpen}
                 onClose={() => {
                     setDeleteModalOpen(false);
-                    setSelectedCard(null);
                 }}
                 onConfirm={handleConfirmDelete}
                 cardName={selectedCard?.name || ''}

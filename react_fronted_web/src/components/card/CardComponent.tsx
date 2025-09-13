@@ -30,10 +30,10 @@ const CardComponent: React.FC<CardComponentProps> = ({
         <div className="w-4/5 bg-gray-200 rounded p-4 mb-3 relative">
             <div className="flex justify-between items-start">
                 <div>
-                    <div>code: {card.code}</div>
+                    <div>code: {card.id}</div>
                     <div>
-                        status: <span className={card.access === 'PERMIT' ? 'text-green-600' : 'text-red-600'}>
-              {card.access}
+                        status: <span className={card.accessType === 'PERMIT' ? 'text-green-600' : 'text-red-600'}>
+              {card.accessType}
             </span>
                     </div>
                     <div>name: {card.name}</div>
@@ -65,8 +65,8 @@ const CardComponent: React.FC<CardComponentProps> = ({
                                 onClick={() => handleMenuClick('status')}
                                 className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center gap-2"
                             >
-                                {card.access === 'PERMIT' ? <ToggleLeft size={14}/> : <ToggleRight size={14}/>}
-                                stop
+                                {card.accessType === 'PERMIT' ? <ToggleLeft size={14}/> : <ToggleRight size={14}/>}
+                                <span>{card.accessType === 'PERMIT' ? 'set to denied' : 'set to permit'}</span>
                             </button>
                         </div>
                     )}
