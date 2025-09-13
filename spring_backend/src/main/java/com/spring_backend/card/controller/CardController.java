@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import static com.spring_backend.card.controller.dto.mapper.CardMapper.map;
 
 @Slf4j
+@CrossOrigin(value = "http://localhost/3000")
 @RestController
 @RequestMapping("/cards")
 @RequiredArgsConstructor
@@ -32,7 +33,7 @@ public class CardController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Card> deleteCard(
+    public ResponseEntity<Card> registerCard(
             @RequestBody RegisterCardDTO request
     ) {
         log.info("Received a request to register a card with hex code: {}", request.getHexCode());
@@ -40,7 +41,7 @@ public class CardController {
     }
 
     @PutMapping("/{cardId}")
-    public ResponseEntity<CardDTO> update(@PathVariable String cardId, CardUpdateDTO cardUpdateDTO) {
+    public ResponseEntity<CardDTO> update(@PathVariable String cardId, @RequestBody CardUpdateDTO cardUpdateDTO) {
         log.info("Received a request to update card: {}", cardId);
         return ResponseEntity.ok(
                 map(cardService.update(cardId, cardUpdateDTO))
