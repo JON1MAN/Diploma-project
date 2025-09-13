@@ -1,9 +1,8 @@
 package com.spring_backend.card.dao.model;
 
 import com.spring_backend.common.AbstractEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.spring_backend.user.dao.model.User;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,4 +19,9 @@ public class Card extends AbstractEntity {
     @Column(name = "hex_code", unique = true)
     private String hexCode;
     private CardAccessType cardAccessType;
+    private String name;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User userId;
 }
