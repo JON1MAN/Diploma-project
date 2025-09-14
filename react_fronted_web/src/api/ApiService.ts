@@ -109,6 +109,50 @@ class ApiService {
         return { firstName, lastName, email };
     }
 
+    static async searchPaginatedLockEntries(
+        page: number = 0,
+        size: number = 20,
+        date?: string,
+        cardName?: string,
+        cardHexCode?: string
+    ): Promise<Page<LockEntryDTO>> {
+        try {
+            // Build query parameters
+            const params = new URLSearchParams();
+            params.append('page', page.toString());
+            params.append('size', size.toString());
+
+            if (date) {
+                params.append('date', date);
+            }
+            if (cardName) {
+                params.append('card_name', cardName);
+            }
+            if (cardHexCode) {
+                params.append('card_hex_code', cardHexCode);
+            }
+
+            const response = await fetch(
+                `${this.baseUrl}/lock_entries/search?${params.toString()}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error('Error searching lock entries:', error);
+            throw error;
+        }
+    }
+
     static async getPaginatedLockEntries(
         page: number = 0,
         size: number = 20
