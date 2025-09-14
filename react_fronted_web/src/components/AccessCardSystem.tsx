@@ -11,11 +11,12 @@ import {UserDTO} from "../interfaces/user/UserDTO";
 import Sidebar from "./side_bar/SideBar";
 import WelcomePage from "./welcome_page/WelcomePage";
 import {Page} from "../interfaces/welcome_page/Page";
+import {LockEntryDTO} from "../interfaces/lock_history/LockEntryDTO";
 
 const AccessCardSystem: React.FC = () => {
     const [user, setUser] = useState<UserDTO | null>(null);
     const [cards, setCards] = useState<Card[]>([]);
-    const [lockHistory, setLockHistory] = useState<LockHistoryEntry[]>([]);
+    // Fix: Remove lockHistory state since LockHistoryTable now handles its own data
     const [lockStatus, setLockStatus] = useState<'opened' | 'closed'>('closed');
     const [currentPage, setCurrentPage] = useState<Page>('welcome');
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -36,18 +37,18 @@ const AccessCardSystem: React.FC = () => {
             const cardsData = await ApiService.getCards();
             const userData = await ApiService.getCurrentUserDetails();
             const statusData = await ApiService.getLockStatus();
-            const historyData: LockHistoryEntry[] = [];
+            // Remove history data loading since LockHistoryTable handles it internally
 
             setUser(userData);
             setCards(cardsData);
-            setLockHistory(historyData);
+            // Remove setLockHistory call
             setLockStatus(statusData);
         } catch (error) {
             console.error('Failed to load initial data:', error);
 
             setUser({ firstName: 'Unknown', lastName: 'User', email: 'unknown@example.com' });
             setCards([]);
-            setLockHistory([]);
+            // Remove setLockHistory call
             setLockStatus('closed');
         } finally {
             setLoading(false);
@@ -189,7 +190,8 @@ const AccessCardSystem: React.FC = () => {
                         ))}
                     </div>
                 ) : (
-                    <LockHistoryTable history={lockHistory} />
+                    // Fix: Use LockHistoryTable without props since it handles its own data fetching
+                    <LockHistoryTable page={0} size={20} />
                 )}
             </div>
 

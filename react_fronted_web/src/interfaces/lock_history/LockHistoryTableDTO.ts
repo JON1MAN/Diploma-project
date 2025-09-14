@@ -1,5 +1,9 @@
-import { LockHistoryEntry } from "./LockHistoryEntry";
 
 export interface LockHistoryTableDTO {
-    history: LockHistoryEntry[];
+    history: {
+        id: string;
+        time: string;
+        cardName: string;
+        cardHexCode: string;
+    }[];
 }

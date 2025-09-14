@@ -1,6 +1,8 @@
 import {Card} from "../interfaces/card/Card";
 import {CardUpdateDTO} from "../interfaces/card/CardUpdateDTO";
 import {UserDTO} from "../interfaces/user/UserDTO";
+import {LockEntryDTO} from "../interfaces/lock_history/LockEntryDTO";
+import {Page} from "../interfaces/lock_history/Page";
 
 class ApiService {
     private static baseUrl = 'http://localhost:8080'; // Replace with actual backend URL
@@ -105,6 +107,32 @@ class ApiService {
         const email = dto.email ?? '';
 
         return { firstName, lastName, email };
+    }
+
+    static async getPaginatedLockEntries(
+        page: number = 0,
+        size: number = 20
+    ): Promise<Page<LockEntryDTO>> {
+        try {
+            const response = await fetch(
+                `${this.baseUrl}/lock_entries?page=${page}&size=${size}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error('Error fetching lock entries:', error);
+            throw error;
+        }
     }
 }
 
