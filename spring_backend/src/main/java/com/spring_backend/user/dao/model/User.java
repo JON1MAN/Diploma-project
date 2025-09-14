@@ -2,7 +2,7 @@ package com.spring_backend.user.dao.model;
 
 
 import com.spring_backend.card.dao.model.Card;
-import com.spring_backend.common.AbstractEntity;
+import com.spring_backend.common.entity.AbstractEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;

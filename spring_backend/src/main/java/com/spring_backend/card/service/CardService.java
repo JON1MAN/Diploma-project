@@ -9,8 +9,10 @@ import com.spring_backend.card.dao.model.CardAccessType;
 import com.spring_backend.card.dao.repository.CardRepository;
 import com.spring_backend.card.exception.CardNotFoundException;
 import com.spring_backend.card.exception.CardWithHexCodeExistsException;
+import com.spring_backend.common.handler.listener.lock_entry.event.LockEntryEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +24,7 @@ import static com.spring_backend.card.controller.dto.mapper.CardMapper.map;
 public class CardService {
 
     private final CardRepository cardRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     public Card findByHexCodeAndIsDeletedFalse(String hexCode) {
         return cardRepository.findByHexCodeAndIsDeletedFalse(hexCode)
@@ -34,6 +37,7 @@ public class CardService {
     public CardAccessResponseDTO validateCardAccess(String hexCode) {
         log.info("Validating access for card with hex code: {}", hexCode);
         Card card = findByHexCodeAndIsDeletedFalse(hexCode);
+        eventPublisher.publishEvent(new LockEntryEvent(card));
         return CardAccessResponseDTO.builder()
                 .accessType(card.getCardAccessType())
                 .build();

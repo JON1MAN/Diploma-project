@@ -1,6 +1,6 @@
 package com.spring_backend.card.dao.model;
 
-import com.spring_backend.common.AbstractEntity;
+import com.spring_backend.common.entity.AbstractEntity;
 import com.spring_backend.user.dao.model.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

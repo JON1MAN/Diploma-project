@@ -2,7 +2,6 @@ package com.spring_backend.user.controller;
 
 import com.spring_backend.card.controller.dto.CardDTO;
 import com.spring_backend.card.controller.dto.mapper.CardMapper;
-import com.spring_backend.common.AbstractEntity;
 import com.spring_backend.user.controller.dto.UserDetailsDTO;
 import com.spring_backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
