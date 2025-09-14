@@ -1,6 +1,6 @@
 package com.spring_backend.card.dao.model;
 
-import com.spring_backend.common.entity.AbstractEntity;
+import com.spring_backend.common.entity.model.AbstractEntity;
 import com.spring_backend.user.dao.model.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -19,6 +19,8 @@ public class Card extends AbstractEntity {
     @Column(name = "hex_code", unique = true)
     private String hexCode;
     private CardAccessType cardAccessType;
+
+    @Column(name = "name", unique = true)
     private String name;
 
     @ManyToOne(fetch = FetchType.EAGER)
