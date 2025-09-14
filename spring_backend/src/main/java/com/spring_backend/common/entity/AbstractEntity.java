@@ -1,4 +1,4 @@
-package com.spring_backend.common;
+package com.spring_backend.common.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

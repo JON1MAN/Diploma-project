@@ -1,4 +1,4 @@
-package com.spring_backend.common;
+package com.spring_backend.common.handler.exception;
 
 import com.spring_backend.card.exception.CardNotFoundException;
 import com.spring_backend.card.exception.CardWithHexCodeExistsException;

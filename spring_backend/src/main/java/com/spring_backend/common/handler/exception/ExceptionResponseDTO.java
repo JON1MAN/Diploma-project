@@ -1,4 +1,4 @@
-package com.spring_backend.common;
+package com.spring_backend.common.handler.exception;
 
 import lombok.Builder;
 import lombok.Getter;
