@@ -1,7 +1,6 @@
-package com.spring_backend.common.handler.listener.lock_entry;
+package com.spring_backend.lock.listener.lock_entry;
 
-import com.spring_backend.common.handler.listener.lock_entry.event.LockEntryEvent;
-import com.spring_backend.lock.dao.model.LockEntry;
+import com.spring_backend.lock.listener.lock_entry.event.LockEntryEvent;
 import com.spring_backend.lock.service.LockEntryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

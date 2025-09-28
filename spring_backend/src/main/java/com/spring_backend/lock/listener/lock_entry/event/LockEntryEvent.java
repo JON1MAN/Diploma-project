@@ -1,4 +1,4 @@
-package com.spring_backend.common.handler.listener.lock_entry.event;
+package com.spring_backend.lock.listener.lock_entry.event;
 
 import com.spring_backend.card.dao.model.Card;
 import lombok.AllArgsConstructor;
